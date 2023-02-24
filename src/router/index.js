@@ -1,22 +1,62 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/home/HomeView.vue'
+import Layout from "@/views/Layout";
 
 Vue.use(VueRouter)
 
 const routes = [
+  // ==== Login ====
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/Login.vue')
+  },
+  // ==== Home ====
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    name: 'Layout',
+    component: Layout,
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import('@/views/home/HomeView.vue')
+      },
+      // ==== User ====
+      {
+        path: 'userList',
+        name: 'UserList',
+        component: () => import('@/views/user/User.vue')
+      },
+      {
+        path: 'addUser',
+        name: 'AddUser',
+        component: () => import('@/views/user/AddUser.vue')
+      },
+      {
+        path: 'editUser',
+        name: 'EditUser',
+        component: () => import('@/views/user/EditUser.vue')
+      },
+      // ==== Admin ====
+      {
+        path: 'adminList',
+        name: 'AdminList',
+        component: () => import('@/views/admin/Admin.vue')
+      },
+      {
+        path: 'addAdmin',
+        name: 'AddAdmin',
+        component: () => import('@/views/admin/AddAdmin.vue')
+      },
+      {
+        path: 'editAdmin',
+        name: 'EditAdmin',
+        component: () => import('@/views/admin/EditAdmin.vue')
+      },
+    ]
   }
 ]
 
