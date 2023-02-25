@@ -2,7 +2,7 @@
   <div style="height: 100vh; overflow: hidden">
     <div style="width: 500px; height: 400px; background-color: white; border-radius: 10px; margin: 300px auto; padding: 50px">
       <div style="margin: 30px; text-align: center; font-size: 30px; font-weight: bold; color: dodgerblue">登录</div>
-      <el-form :model="admin" ref="loginForm">
+      <el-form :model="admin" :rules="rules" ref="loginForm">
         <el-form-item prop="username">
           <el-input placeholder="请输入账号" prefix-icon="el-icon-user" v-model="admin.username"></el-input>
         </el-form-item>
@@ -19,23 +19,39 @@
 
 <script>
 import request from "@/utils/request";
+import Cookies from 'js-cookie';
 
 export default {
   name: "Login",
   data() {
     return {
-      admin: {}
+      admin: {},
+      rules: {
+        username: [
+          { required: true, message: '请输入账号', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
     login() {
-      request.post('/admin/login',this.admin).then(res => {
-        if(res.code == '200'){
-          this.$notify.success('登录成功')
-          this.$router.push('/')
-        }
-        else{
-          this.$notify.error(res.msg)
+      this.$refs['loginForm'].validate((valid) => {
+        if(valid){
+          request.post('/admin/login',this.admin).then(res => {
+            if(res.code == '200'){
+              this.$notify.success('登录成功')
+              if(res.data !== null){
+                Cookies.set('admin',JSON.stringify(res.data))
+              }
+              this.$router.push('/')
+            }
+            else{
+              this.$notify.error(res.msg)
+            }
+          })
         }
       })
     }
