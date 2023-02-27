@@ -8,7 +8,7 @@
       <el-button style="margin-left: 5px" type="warning" @click="reset"><i class="el-icon-refresh"></i>重置</el-button>
     </div>
     <!-- 表单主体 -->
-    <el-table :data="tableData" stripe>
+    <el-table  :data="tableData" stripe>
       <el-table-column prop="id" label="编号"></el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column prop="username" label="卡号"></el-table-column>
@@ -16,7 +16,7 @@
       <el-table-column prop="sex" label="性别"></el-table-column>
       <el-table-column prop="address" label="地址"></el-table-column>
       <el-table-column prop="phone" label="联系方式"></el-table-column>
-      <el-table-column prop="updatetime" label="最后一次更新"></el-table-column>
+      <el-table-column prop="updateTime" label="最后一次更新"></el-table-column>
 
       <el-table-column label="操作">
         <template v-slot="scope">
