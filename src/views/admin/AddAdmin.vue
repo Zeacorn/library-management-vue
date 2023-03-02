@@ -6,7 +6,7 @@
         <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+        <el-input v-model="form.password" placeholder="请输入密码" show-password></el-input>
       </el-form-item>
       <el-form-item label="联系方式" prop="phone">
         <el-input v-model="form.phone" placeholder="请输入联系方式"></el-input>
@@ -25,6 +25,8 @@
 
 <script>
 import request from "@/utils/request";
+import { validPassword } from '@/utils/validate'
+
 
 export default {
   name: "AddAdmin",
@@ -39,6 +41,13 @@ export default {
       }
       callback()
     };
+    const validatePassword = (rule, value, callback) => {
+      if (!value){
+        return callback(new Error('密码不能为空'));
+      }
+      if (validPassword(value)) callback()
+      else callback(new Error('密码6-20位，必须包含大写字母，小写字母，数字及特殊字符'))
+    };
     return {
       form: {},
       rules: {
@@ -48,7 +57,10 @@ export default {
         ],
         phone: [
           { validator: checkPhone, required: true, trigger: 'blur' },
-        ]
+        ],
+        password: [
+          { required: true, trigger: "blur",validator: validatePassword},
+        ],
       }
     }
   },
