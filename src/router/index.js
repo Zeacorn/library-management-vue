@@ -56,6 +56,38 @@ const routes = [
         name: 'EditAdmin',
         component: () => import('@/views/admin/EditAdmin.vue')
       },
+      // ==== Category ====
+      {
+        path: 'categoryList',
+        name: 'CategoryList',
+        component: () => import('@/views/category/Category.vue')
+      },
+      {
+        path: 'addCategory',
+        name: 'AddCategory',
+        component: () => import('@/views/category/AddCategory.vue')
+      },
+      {
+        path: 'editCategory',
+        name: 'EditCategory',
+        component: () => import('@/views/category/EditCategory.vue')
+      },
+      // ==== Book ====
+      {
+        path: 'bookList',
+        name: 'BookList',
+        component: () => import('@/views/book/Book.vue')
+      },
+      {
+        path: 'addBook',
+        name: 'AddBook',
+        component: () => import('@/views/book/AddBook.vue')
+      },
+      {
+        path: 'editBook',
+        name: 'EditBook',
+        component: () => import('@/views/book/EditBook.vue')
+      },
     ]
   },
   {
