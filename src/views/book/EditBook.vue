@@ -31,6 +31,9 @@
       <el-form-item label="标注码" prop="bookNo">
         <el-input v-model="form.bookNo" placeholder="请输入标注码"></el-input>
       </el-form-item>
+      <el-form-item label="数量" prop="bookNo">
+        <el-input v-model="form.nums" placeholder="请输入数量"></el-input>
+      </el-form-item>
       <el-form-item label="封面" prop="cover">
         <el-input v-model="form.cover" placeholder="请选择封面"></el-input>
       </el-form-item>

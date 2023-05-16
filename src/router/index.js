@@ -88,6 +88,22 @@ const routes = [
         name: 'EditBook',
         component: () => import('@/views/book/EditBook.vue')
       },
+      // ==== Borrow ====
+      {
+        path: 'borrowList',
+        name: 'BorrowList',
+        component: () => import('@/views/borrow/Borrow.vue')
+      },
+      {
+        path: 'addBorrow',
+        name: 'AddBorrow',
+        component: () => import('@/views/borrow/AddBorrow.vue')
+      },
+      {
+        path: 'editBorrow',
+        name: 'EditBorrow',
+        component: () => import('@/views/borrow/EditBorrow.vue')
+      },
     ]
   },
   {

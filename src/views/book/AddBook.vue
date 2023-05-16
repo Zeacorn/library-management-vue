@@ -31,6 +31,9 @@
       <el-form-item label="标注码" prop="bookNo">
         <el-input v-model="form.bookNo" placeholder="请输入标注码"></el-input>
       </el-form-item>
+      <el-form-item label="数量" prop="nums">
+        <el-input v-model.number="form.nums" placeholder="请输入数量"></el-input>
+      </el-form-item>
       <el-form-item label="封面" prop="cover">
         <el-input v-model="form.cover" placeholder="请选择封面"></el-input>
       </el-form-item>
@@ -50,12 +53,29 @@ import request from "@/utils/request";
 export default {
   name: "AddBook",
   data() {
+    const checkNums = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('数量不能为空'));
+      }
+      if (!Number.isInteger(value)) {
+        callback(new Error('请输入数字值'));
+      } else {
+        if (value < 1 || value > 1000) {
+          callback(new Error('请输入合法数量(1~1000)'));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       form: {},
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' },
         ],
+        nums: [
+          { validator: checkNums, required: true, trigger: 'blur' },
+        ]
       },
       categories: []
     }
