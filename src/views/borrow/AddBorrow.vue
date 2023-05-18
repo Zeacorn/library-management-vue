@@ -34,6 +34,9 @@
       <el-form-item label="用户联系方式" prop="userPhone">
         <el-input v-model="form.userPhone" placeholder="请输入用户联系方式" disabled></el-input>
       </el-form-item>
+      <el-form-item label="借用时间" prop="day">
+        <el-input v-model.number="form.day"></el-input>
+      </el-form-item>
     </el-form>
 
      <div style="text-align: center; margin-top: 30px">
@@ -50,6 +53,20 @@ import request from "@/utils/request";
 export default {
   name: "AddBorrow",
   data() {
+    const checkNums = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('数量不能为空'));
+      }
+      if (!Number.isInteger(value)) {
+        callback(new Error('请输入数字值'));
+      } else {
+        if (value < 1 || value > 100) {
+          callback(new Error('请输入合法数量(1~100)'));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       form: {},
       rules: {
@@ -59,6 +76,9 @@ export default {
         userId: [
           { required: true, message: '请选择用户ID', trigger: 'blur' },
         ],
+        day: [
+          { validator: checkNums, required: true, trigger: 'blur' },
+        ]
       },
       books: [],
       users: [],
@@ -71,7 +91,7 @@ export default {
     })
 
     request.get('/user/list').then(res => {
-      this.users = res.data
+      this.users = res.data.filter(v => v.status)
     })
   },
   methods: {

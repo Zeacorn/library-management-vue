@@ -35,7 +35,14 @@
         <el-input v-model="form.nums" placeholder="请输入数量"></el-input>
       </el-form-item>
       <el-form-item label="封面" prop="cover">
-        <el-input v-model="form.cover" placeholder="请选择封面"></el-input>
+          <el-upload
+              class="avatar-uploader"
+              :action="'http://localhost:9090/api/book/file/upload?token=' + this.admin.token"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess">
+            <img v-if="form.cover" :src="form.cover" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
       </el-form-item>
     </el-form>
 
@@ -48,12 +55,14 @@
 
 <script>
 import request from "@/utils/request";
+import Cookies from "js-cookie";
 
 export default {
   name: "EditCategory",
   data() {
     return {
-      form: {},
+      admin: Cookies.get('admin') ? JSON.parse(Cookies.get('admin')) : {},
+      form: {cover: ''},
       categories: []
     }
   },
@@ -83,7 +92,38 @@ export default {
     },
     returnList() {
       this.$router.push("/bookList")
+    },
+    handleAvatarSuccess(res) {
+      if(res.code === '200') {
+        this.form.cover = res.data
+      }
     }
   }
 }
 </script>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>

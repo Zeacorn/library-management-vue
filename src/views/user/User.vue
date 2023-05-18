@@ -16,9 +16,19 @@
       <el-table-column prop="sex" label="性别"></el-table-column>
       <el-table-column prop="address" label="地址"></el-table-column>
       <el-table-column prop="phone" label="联系方式"></el-table-column>
+      <el-table-column label="状态">
+        <template v-slot="scope">
+          <el-switch
+              v-model="scope.row.status"
+              @change="changeStatus(scope.row)"
+              active-color="#13ce66"
+              inactive-color="#ff4949">
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column prop="updateTime" label="最后一次更新"></el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="300">
         <template v-slot="scope">
           <!-- scope.row 就是当前行的数据 -->
           <el-button style="margin-right: 5px" type="primary" @click="$router.push('/editUser?id=' + scope.row.id)">编辑</el-button>
@@ -67,6 +77,16 @@ export default {
     this.load()
   },
   methods: {
+    changeStatus(row) {
+      request.put('/user/update',row).then(res => {
+        if(res.code == '200'){
+          this.$notify.success('操作成功')
+          this.load()
+        }else{
+          this.$notify.error(res.msg)
+        }
+      })
+    },
     load() {
       // fetch('http://localhost:9090/user/list').then(res => res.json()).then(res => {
       //   console.log(res)

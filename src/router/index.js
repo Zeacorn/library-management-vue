@@ -99,11 +99,6 @@ const routes = [
         name: 'AddBorrow',
         component: () => import('@/views/borrow/AddBorrow.vue')
       },
-      {
-        path: 'editBorrow',
-        name: 'EditBorrow',
-        component: () => import('@/views/borrow/EditBorrow.vue')
-      },
     ]
   },
   {
